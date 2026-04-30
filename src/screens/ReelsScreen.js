@@ -5,7 +5,9 @@ import {
 } from 'react-native'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { supabase } from '../lib/supabase'
+import { type } from '../lib/typography'
 import Comments from '../components/Comments'
+import { FishIcon, HeartIcon, CommentIcon, LocationIcon, CloseIcon } from '../components/Icons'
 
 const { width, height } = Dimensions.get('window')
 const REEL_HEIGHT = height - 170
@@ -48,19 +50,19 @@ function ReelItem({ post, isActive, session, likes, likedPosts, onLike, onViewPr
           {profile?.avatar_url ? (
             <Image source={{ uri: profile.avatar_url }} style={styles.avatarImg} />
           ) : (
-            <Text style={{ fontSize: 16 }}>🐟</Text>
+            <FishIcon size={16} color="#888" />
           )}
         </TouchableOpacity>
 
         {/* Like */}
         <TouchableOpacity style={styles.actionBtn} onPress={() => onLike(post.id)}>
-          <Text style={{ fontSize: 28, color: liked ? '#ff3b5c' : 'rgba(255,255,255,0.7)' }}>♥</Text>
+          <HeartIcon size={28} color={liked ? '#ff3b5c' : 'rgba(255,255,255,0.7)'} filled={liked} />
           {likeCount > 0 && <Text style={styles.actionCount}>{likeCount}</Text>}
         </TouchableOpacity>
 
         {/* Comment */}
         <TouchableOpacity style={styles.actionBtn} onPress={() => setShowComments(prev => !prev)}>
-          <Text style={{ fontSize: 24, color: '#fff' }}>💬</Text>
+          <CommentIcon size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
@@ -71,7 +73,7 @@ function ReelItem({ post, isActive, session, likes, likedPosts, onLike, onViewPr
             {profile?.display_name || `@${profile?.username || 'unknown'}`}
           </Text>
         </TouchableOpacity>
-        {post.location ? <Text style={styles.reelLocation}>📍 {post.location}</Text> : null}
+        {post.location ? <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginBottom: 4 }}><LocationIcon size={12} color="#ddd" /><Text style={styles.reelLocation}>{post.location}</Text></View> : null}
         {post.caption ? <Text style={styles.reelCaption}>{post.caption}</Text> : null}
         {post.species ? (
           <View style={styles.speciesBadge}>
@@ -86,7 +88,7 @@ function ReelItem({ post, isActive, session, likes, likedPosts, onLike, onViewPr
           <View style={styles.commentsHeader}>
             <Text style={styles.commentsTitle}>Comments</Text>
             <TouchableOpacity onPress={() => setShowComments(false)}>
-              <Text style={styles.commentsClose}>✕</Text>
+              <CloseIcon size={18} color="#fff" />
             </TouchableOpacity>
           </View>
           <Comments postId={post.id} session={session} />
@@ -215,9 +217,9 @@ export default function ReelsScreen({ session, navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0a0a0a', padding: 40 },
-  emptyText: { color: '#555', fontSize: 16, marginBottom: 24 },
+  emptyText: { ...type.body, color: '#555', fontSize: 16, marginBottom: 24 },
   postReelBtn: { backgroundColor: '#fff', borderRadius: 8, paddingHorizontal: 24, paddingVertical: 12 },
-  postReelBtnText: { color: '#000', fontWeight: '700', fontSize: 15 },
+  postReelBtnText: { ...type.button, color: '#000', fontSize: 15 },
   reel: { width: width, height: REEL_HEIGHT, backgroundColor: '#000', position: 'relative' },
   video: { width: '100%', height: '100%' },
   actions: {
@@ -230,19 +232,35 @@ const styles = StyleSheet.create({
   },
   avatarImg: { width: 44, height: 44, borderRadius: 22 },
   actionBtn: { alignItems: 'center', gap: 2 },
-  actionCount: { color: '#fff', fontSize: 12, fontWeight: '700' },
+  actionCount: { ...type.bodyStrong, color: '#fff', fontSize: 12 },
   bottomInfo: { position: 'absolute', bottom: 20, left: 12, right: 80 },
-  reelUsername: { color: '#fff', fontWeight: '800', fontSize: 15, marginBottom: 4 },
-  reelLocation: { color: '#ddd', fontSize: 13, marginBottom: 4 },
-  reelCaption: { color: '#ddd', fontSize: 13 },
-  speciesBadge: { backgroundColor: '#0891b2', borderRadius: 20, paddingHorizontal: 8, paddingVertical: 2, marginTop: 6, alignSelf: 'flex-start' },
-  speciesText: { color: '#fff', fontSize: 11, fontWeight: '700' },
+  reelUsername: { ...type.titleStrong, color: '#fff', fontSize: 15, marginBottom: 4 },
+  reelLocation: { ...type.body, color: '#ddd', fontSize: 13, marginBottom: 4 },
+  reelCaption: { ...type.body, color: '#ddd', fontSize: 13 },
+  speciesBadge: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 999,
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(8, 145, 178, 0.2)',
+    borderWidth: 1,
+    borderColor: 'rgba(185, 241, 255, 0.42)',
+    shadowColor: '#02151b',
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
+  },
+  speciesText: { ...type.bodyStrong, color: '#f3fdff', fontSize: 11, letterSpacing: 0.2 },
   commentsOverlay: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
     backgroundColor: 'rgba(0,0,0,0.9)', borderTopLeftRadius: 16, borderTopRightRadius: 16,
     padding: 16, maxHeight: '50%',
   },
   commentsHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 },
-  commentsTitle: { color: '#fff', fontWeight: '700', fontSize: 16 },
+  commentsTitle: { ...type.title, color: '#fff', fontSize: 16 },
   commentsClose: { color: '#fff', fontSize: 18 },
 })

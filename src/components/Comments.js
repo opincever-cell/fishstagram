@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
 import { supabase } from '../lib/supabase'
 import { timeAgo } from '../lib/utils'
+import { type } from '../lib/typography'
+import { HeartIcon, CloseIcon } from './Icons'
 
 export default function Comments({ postId, session }) {
   const [comments, setComments] = useState([])
@@ -123,14 +125,14 @@ export default function Comments({ postId, session }) {
                 </View>
                 <View style={styles.commentActions}>
                   <TouchableOpacity onPress={() => handleCommentLike(comment.id)}>
-                    <Text style={{ color: likedComments[comment.id] ? '#ff3b5c' : '#333', fontSize: 14 }}>♥</Text>
+                    <HeartIcon size={14} color={likedComments[comment.id] ? '#ff3b5c' : '#333'} filled={likedComments[comment.id]} />
                   </TouchableOpacity>
                   {commentLikes[comment.id] > 0 && (
                     <Text style={styles.commentLikeCount}>{commentLikes[comment.id]}</Text>
                   )}
                   {session?.user?.id === comment.user_id && (
                     <TouchableOpacity onPress={() => handleDeleteComment(comment.id)}>
-                      <Text style={styles.deleteBtn}>✕</Text>
+                      <CloseIcon size={11} color="#444" />
                     </TouchableOpacity>
                   )}
                 </View>
@@ -162,22 +164,22 @@ export default function Comments({ postId, session }) {
 
 const styles = StyleSheet.create({
   container: { paddingHorizontal: 16, paddingTop: 8 },
-  toggle: { color: '#666', fontSize: 13 },
+  toggle: { ...type.bodyMedium, color: '#666', fontSize: 13 },
   commentsWrap: { marginTop: 12 },
-  empty: { color: '#555', fontSize: 13 },
+  empty: { ...type.body, color: '#555', fontSize: 13 },
   comment: { flexDirection: 'row', marginBottom: 10, alignItems: 'flex-start' },
   commentBody: { flex: 1 },
-  commentUser: { color: '#fff', fontWeight: '700', fontSize: 13 },
-  commentText: { color: '#ccc', fontSize: 13 },
-  commentTime: { color: '#444', fontSize: 11, marginTop: 2 },
+  commentUser: { ...type.bodyStrong, color: '#fff', fontSize: 13 },
+  commentText: { ...type.body, color: '#ccc', fontSize: 13 },
+  commentTime: { ...type.meta, color: '#444', fontSize: 11, marginTop: 2 },
   commentActions: { alignItems: 'center', gap: 4, marginLeft: 8 },
-  commentLikeCount: { color: '#aaa', fontSize: 11 },
+  commentLikeCount: { ...type.meta, color: '#aaa', fontSize: 11 },
   deleteBtn: { color: '#444', fontSize: 11 },
   inputRow: { flexDirection: 'row', gap: 8, marginTop: 8 },
   input: {
     flex: 1, padding: 8, paddingHorizontal: 12, backgroundColor: '#1a1a1a',
-    borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 8, color: '#fff', fontSize: 13,
+    borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 8, color: '#fff', fontSize: 13, ...type.body,
   },
   postBtn: { backgroundColor: '#fff', borderRadius: 8, paddingHorizontal: 14, justifyContent: 'center' },
-  postBtnText: { color: '#000', fontSize: 13, fontWeight: '700' },
+  postBtnText: { ...type.button, color: '#000', fontSize: 13 },
 })

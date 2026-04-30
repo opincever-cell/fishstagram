@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "fishstagram",
+    "name": "LuckyFin",
     "slug": "fishstagram",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,14 +20,22 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+      },
+      "package": "com.anonymous.fishstagram"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-asset",
-      "expo-video"
+      "expo-video",
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow LuckyFin to use your location to geotag tournaments."
+        }
+      ]
     ]
   }
 }

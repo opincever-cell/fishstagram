@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator
 } from 'react-native'
 import { supabase } from '../lib/supabase'
+import { type } from '../lib/typography'
 
 export default function AuthScreen() {
   const [email, setEmail] = useState('')
@@ -44,7 +45,7 @@ export default function AuthScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.header}>
-          <Text style={styles.logo}>FISHSTAGRAM</Text>
+        <Text style={styles.logo}>LuckyFin</Text>
           <Text style={styles.subtitle}>The fishing community</Text>
         </View>
 
@@ -99,18 +100,18 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0a0a0a' },
   scroll: { flexGrow: 1, justifyContent: 'center', padding: 24 },
   header: { alignItems: 'center', marginBottom: 48 },
-  logo: { color: '#fff', fontSize: 32, fontWeight: '800', letterSpacing: -1 },
-  subtitle: { color: '#666', fontSize: 14, marginTop: 8 },
+  logo: { ...type.display, color: '#fff', fontSize: 32 },
+  subtitle: { ...type.body, color: '#666', fontSize: 14, marginTop: 8 },
   input: {
     backgroundColor: '#1a1a1a', borderWidth: 1, borderColor: '#2a2a2a',
-    borderRadius: 8, padding: 14, color: '#fff', fontSize: 15, marginBottom: 12,
+    borderRadius: 8, padding: 14, color: '#fff', fontSize: 15, marginBottom: 12, ...type.body,
   },
   button: {
     backgroundColor: '#fff', borderRadius: 8, padding: 14,
     alignItems: 'center', marginBottom: 12,
   },
-  buttonText: { color: '#000', fontSize: 15, fontWeight: '700' },
-  switchText: { color: '#555', textAlign: 'center', fontSize: 14 },
-  switchBold: { color: '#fff', fontWeight: '700' },
-  message: { color: '#4ade80', textAlign: 'center', marginTop: 16, fontSize: 14 },
+  buttonText: { ...type.button, color: '#000', fontSize: 15 },
+  switchText: { ...type.body, color: '#555', textAlign: 'center', fontSize: 14 },
+  switchBold: { ...type.bodyStrong, color: '#fff' },
+  message: { ...type.bodyMedium, color: '#4ade80', textAlign: 'center', marginTop: 16, fontSize: 14 },
 })

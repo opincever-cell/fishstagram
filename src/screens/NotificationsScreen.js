@@ -4,6 +4,8 @@ import {
 } from 'react-native'
 import { supabase } from '../lib/supabase'
 import { timeAgo } from '../lib/utils'
+import { type } from '../lib/typography'
+import { FishIcon, HeartIcon, CommentIcon, PersonIcon, BellIcon } from '../components/Icons'
 
 export default function NotificationsScreen({ session, navigation }) {
   const [notifs, setNotifs] = useState([])
@@ -58,16 +60,19 @@ export default function NotificationsScreen({ session, navigation }) {
         {n.actor?.avatar_url ? (
           <Image source={{ uri: n.actor.avatar_url }} style={styles.avatarImg} />
         ) : (
-          <Text style={styles.avatarFallback}>🐟</Text>
+          <FishIcon size={18} color="#888" />
         )}
       </View>
       <View style={{ flex: 1 }}>
         <Text style={styles.notifText}>{getMessage(n)}</Text>
         <Text style={styles.notifTime}>{timeAgo(n.created_at)}</Text>
       </View>
-      <Text style={styles.icon}>
-        {n.type === 'like' ? '♥' : n.type === 'comment' ? '💬' : n.type === 'follow' ? '👤' : '🔔'}
-      </Text>
+      <View style={styles.icon}>
+        {n.type === 'like' ? <HeartIcon size={18} color="#ff3b5c" filled /> :
+         n.type === 'comment' ? <CommentIcon size={18} color="#aaa" /> :
+         n.type === 'follow' ? <PersonIcon size={18} color="#aaa" /> :
+         <BellIcon size={18} color="#aaa" />}
+      </View>
     </TouchableOpacity>
   )
 
@@ -94,7 +99,7 @@ export default function NotificationsScreen({ session, navigation }) {
 const styles = StyleSheet.create({
   list: { flex: 1, backgroundColor: '#0a0a0a' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 60, backgroundColor: '#0a0a0a' },
-  emptyText: { color: '#555', fontSize: 16 },
+  emptyText: { ...type.body, color: '#555', fontSize: 16 },
   notif: {
     flexDirection: 'row', alignItems: 'center', padding: 14, paddingHorizontal: 16,
     borderBottomWidth: 1, borderBottomColor: '#1a1a1a',
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
   },
   avatarImg: { width: 40, height: 40, borderRadius: 20 },
   avatarFallback: { fontSize: 18 },
-  notifText: { color: '#aaa', fontSize: 14 },
-  notifTime: { color: '#444', fontSize: 11, marginTop: 2 },
+  notifText: { ...type.body, color: '#aaa', fontSize: 14 },
+  notifTime: { ...type.meta, color: '#444', fontSize: 11, marginTop: 2 },
   icon: { fontSize: 18, marginLeft: 8 },
 })
